@@ -1,4 +1,4 @@
-from flask import Blueprint, request, jsonify, make_response
+from flask import Blueprint, request, jsonify, make_response, abort
 from app import db
 from app.models.card import Card
 from .routes_helpers import validate_model
@@ -12,4 +12,4 @@ def delete_one_card(id):
 
     db.session.delete(card)
     db.session.commit()
-    return make_response(jsonify({"details": f'Card {card.id} successfully deleted'}), 200)
+    return make_response(jsonify({"details": f'Card {card.card_id} successfully deleted'}), 200)
