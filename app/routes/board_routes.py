@@ -25,3 +25,9 @@ def create_board():
     db.session.commit()
 
     return make_response(jsonify(new_board.to_dict()), 201)
+
+@board_bp.route("/<board_id>", methods=["GET"])
+def read_one_board(board_id):
+    board = validate_model(Board, board_id)
+    return make_response(jsonify({"board": board.to_dict()}), 200)
+
