@@ -15,7 +15,6 @@ def get_all_boards():
 @board_bp.route("", methods=["POST"])
 def create_board():
     request_body = request.get_json()
-    print(request_body);
     try:
         new_board = Board.from_dict(request_body)
     except KeyError:
