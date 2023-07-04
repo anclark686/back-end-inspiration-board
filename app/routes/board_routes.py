@@ -27,7 +27,7 @@ def create_board():
     return make_response(jsonify(new_board.to_dict()), 201)
 
 
-# GET ALL TASKS FOR GOAL
+# GET ALL CARDS FOR BOARD
 @board_bp.route("/<id>/cards", methods=["GET"])
 def get_board_cards(id):
     board = validate_model(Board, id)
