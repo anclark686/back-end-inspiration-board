@@ -46,8 +46,8 @@ def create_card(id):
         new_card = Card.from_dict(request_body)
     except KeyError:
         abort(make_response(jsonify({"details": "Invalid data"}), 400))
-
-    if len(new_card["message"]) > 40:
+    
+    if len(new_card.message) > 40:
         abort(make_response(jsonify({
             "details": "Message should be 40 characters or less."
             }), 400))
