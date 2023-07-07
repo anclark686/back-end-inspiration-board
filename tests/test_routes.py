@@ -3,6 +3,7 @@ from unittest.mock import Mock, patch
 from app.models.card import Card
 import pytest
 
+
 def test_add_like_existing_card(client, one_card):
     # Arrange
     likes_count = 1
@@ -15,6 +16,7 @@ def test_add_like_existing_card(client, one_card):
     assert response.status_code == 200
     assert response_body == {"card_like_count": likes_count}
     assert Card.query.get(1).likes_count == likes_count
+
 
 def test_add_like_missing_card(client):
     # Act
@@ -100,3 +102,36 @@ def test_get_boards_with_cards(client, two_boards_with_cards):
             "title": "Board with Cards Too"
         },
     ]
+
+
+
+def test_add_like_invalid_card(client):
+    # Act
+    response = client.patch("/cards/something/add_like")
+    response_body = response.get_json()
+
+    # Assert
+    assert response.status_code == 400
+    assert response_body == {"message": f"something is invalid"}
+
+
+def test_create_one_card(client, one_board):
+
+    response = client.post("/boards/1/cards", json={
+        "likes_count": 0,
+        "message": "Test card",
+    })
+    response_body = response.get_json()
+
+    assert response.status_code == 201
+    assert response_body == {
+        "board_id": 1,
+        "card_id": 1,
+        "likes_count": 0,
+        "message": "Test card"
+    }
+
+    new_card = Card.query.get(1)
+    assert new_card
+    assert new_card.message == "Test card"
+    assert new_card.likes_count == 0
