@@ -27,6 +27,12 @@ def create_board():
     return make_response(jsonify(new_board.to_dict()), 201)
 
 
+@board_bp.route("/<board_id>", methods=["GET"])
+def read_one_board(board_id):
+    board = validate_model(Board, board_id)
+    return make_response(jsonify({"board": board.to_dict()}), 200)
+
+
 # GET ALL CARDS FOR BOARD
 @board_bp.route("/<id>/cards", methods=["GET"])
 def get_board_cards(id):
