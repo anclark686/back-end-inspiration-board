@@ -23,7 +23,8 @@ def add_like(id):
     card.likes_count += 1
     db.session.commit()
 
-    return make_response(jsonify({"card like count": card.likes_count}), 200)
+    return make_response(jsonify({"card_like_count": card.likes_count}), 200)
+
 
 # create a route to add new card for selected board
 @card_bp.route("", methods=["POST"])
@@ -46,3 +47,4 @@ def get_all_cards():
     cards = Card.query.all()
     cards_response = [card.to_dict() for card in cards]
     return make_response(jsonify(cards_response), 200)
+

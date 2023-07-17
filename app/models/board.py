@@ -14,7 +14,7 @@ class Board(db.Model):
             "owner": self.owner
         }
         if self.cards:
-            board_data["cards"] = [card.to_dict() for card in self.cards]
+            board_data["card_count"] = len(self.cards)
         return board_data
     
     @classmethod
