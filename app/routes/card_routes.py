@@ -47,4 +47,5 @@ def add_like(id):
     card.likes_count += 1
     db.session.commit()
 
+
     return make_response(jsonify({"card_like_count": card.likes_count}), 200)
