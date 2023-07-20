@@ -37,6 +37,16 @@ def get_all_boards():
     return make_response(jsonify(boards_response), 200)
 
 
+@board_bp.route("/<board_id>", methods=["DELETE"])
+def delete_one_board(board_id):
+    board = validate_model(Board, board_id)
+    
+    db.session.delete(board)
+    db.session.commit()
+
+    return make_response(jsonify({"details": f'Board {board.board_id} successfully deleted'}), 200)
+
+
 @board_bp.route("/<id>/cards", methods=["POST"])
 def create_card(id):
     request_body = request.get_json()
