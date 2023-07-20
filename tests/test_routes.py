@@ -76,6 +76,29 @@ def test_get_all_boards(client, four_boards):
         }
     ]
 
+def test_delete_one_board(client, one_board):
+    response = client.delete("/boards/1")
+    response_body = response.get_json()
+
+    assert response.status_code == 200
+    assert response_body == {"details": "Board 1 successfully deleted"}
+
+
+def test_delete_invalid_board(client, one_board):
+    response = client.delete("/boards/hellothere")
+    response_body = response.get_json()
+
+    assert response.status_code == 400
+    assert response_body == {"message": f"hellothere is invalid"}
+
+
+def test_delete_nonexisting_board(client, one_board):
+    response = client.delete("/boards/59303594")
+    response_body = response.get_json()
+
+    assert response.status_code == 404
+    assert response_body == {"message": "Board with id 59303594 was not found."}
+
 
 def test_get_boards_with_cards(client, two_boards_with_cards):
     response = client.get("/boards")
@@ -123,7 +146,6 @@ def test_create_one_card(client, one_board):
 def test_delete_one_card(client, one_card):
     response = client.delete("/cards/1")
     response_body = response.get_json()
-    print(response_body)
 
     assert response.status_code == 200
     assert response_body == {"details": "Card 1 successfully deleted"}
