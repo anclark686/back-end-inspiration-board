@@ -35,7 +35,7 @@ def one_board(app):
     db.session.commit()
 
 @pytest.fixture
-def one_card(app, one_board):
+def one_card(app):
     new_board = Board(title = "Do Something", owner = "Alycia")
     db.session.add(new_board)
     db.session.commit()
