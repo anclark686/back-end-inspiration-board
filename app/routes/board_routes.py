@@ -37,10 +37,10 @@ def get_all_boards():
     return make_response(jsonify(boards_response), 200)
 
 
-@board_bp.route("/<id>/cards", methods=["POST"])
-def create_card(id):
+@board_bp.route("/<board_id>/cards", methods=["POST"])
+def create_card(board_id):
     request_body = request.get_json()
-    request_body["board_id"] = id
+    request_body["board_id"] = board_id
 
     try:
         new_card = Card.from_dict(request_body)
@@ -58,9 +58,9 @@ def create_card(id):
     return make_response(jsonify(new_card.to_dict()), 201)
 
 
-@board_bp.route("/<id>/cards", methods=["GET"])
-def get_board_cards(id):
-    board = validate_model(Board, id)
+@board_bp.route("/<board_id>/cards", methods=["GET"])
+def get_board_cards(board_id):
+    board = validate_model(Board, board_id)
     # just a list of cards, not all the board data
     card_response = [card.to_dict() for card in board.cards]
     
